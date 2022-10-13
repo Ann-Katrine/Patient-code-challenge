@@ -4,20 +4,20 @@ USE codechallenges;
 
 CREATE TABLE department
 (
-    id INT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(45) NOT NULL
 );
 
 CREATE TABLE medicaljournal
 (
-    id INT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(100),
     socialSecurityNumber INT
 );
 
 CREATE TABLE docter
 (
-    id INT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(100),
     department INT NOT NULL,
     FOREIGN KEY (department) REFERENCES department(id)
@@ -25,7 +25,7 @@ CREATE TABLE docter
 
 CREATE TABLE admission
 (
-    id INT PRIMARY KEY NOT NULL,
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     medicalJournal INT NOT NULL,
     department INT NOT NULL,
     FOREIGN KEY (medicalJournal) REFERENCES medical_journal(id),
