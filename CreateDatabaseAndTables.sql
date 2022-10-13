@@ -8,7 +8,7 @@ CREATE TABLE department
     name VARCHAR(45) NOT NULL
 );
 
-CREATE TABLE medical_journal
+CREATE TABLE medicaljournal
 (
     id INT PRIMARY KEY NOT NULL,
     name VARCHAR(100),
