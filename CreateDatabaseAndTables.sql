@@ -11,14 +11,14 @@ CREATE TABLE department
 CREATE TABLE medicaljournal
 (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    name VARCHAR(100),
-    socialSecurityNumber INT
+    name VARCHAR(100) NOT NULL,
+    socialSecurityNumber INT NOT NULL UNIQUE
 );
 
 CREATE TABLE docter
 (
     id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    name VARCHAR(100),
+    name VARCHAR(100) NOT NULL,
     department INT NOT NULL,
     FOREIGN KEY (department) REFERENCES department(id)
 );
