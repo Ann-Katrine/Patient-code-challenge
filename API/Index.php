@@ -8,7 +8,7 @@
     include_once("./PUT.php");
     include_once("./DELETE.php");
 
-    $httpMehod = $_Sever['REQUEST_METHOD'];
+    $httpMehod = $_SERVER['REQUEST_METHOD'];
 
     header('Access-Control-Allow-Origin: *');
     header("Access-Control-Allow-Methods: *");
@@ -43,7 +43,7 @@
     /*************************************************/
     /*                       stien                   */
     /*************************************************/
-    switch ($variable) {
+    switch ($httpMehod) {
         case 'GET':
             $GET = new GET();
             $GET->findRoute($uri, $accept);
