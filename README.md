@@ -6,6 +6,17 @@ Desværre ved jeg ikke noget om Docker, så jeg kan ikke sige om min kode vil vi
 Inden jeg begyndte på at kode laver jeg altid diagrammer. De diagrammer jeg har lavet er er-digram og class-diagram.
 Det giver mig et hurtiger overblik, og ved hvad jeg skal lave.
 
+POSTMAN har jeg brugt til at se om mine endpoint virkede.
+- Ved POST's body har jeg valgt at bruge raw
+
 # EndPoints
+headers
+- Accept: application/json
+
+GET
 - http://localhost/kode-challenges/API/index.php/api/docter/all-docter-too-patiant-with-name/<id>
 - http://localhost/kode-challenges/API/index.php/api/medical-journal/get-patient?patientId=<id>&dockerId=<id>
+
+POST
+- http://localhost/kode-challenges/API/index.php/api/admission
+    body skal have variablerne "journal", "department", "docter"
