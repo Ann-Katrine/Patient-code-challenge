@@ -11,10 +11,10 @@
             $db = new DB();
             $finish = array();
 
-            $stmt = $db->conn->prepare("Select medicalJournal.name AS name FROM docter
-                                        INNER JOIN docter_has_admission ON docter_has_admission.docterId = docter.id
-                                        INNER JOIN admission ON admission.id = docter_has_admission.admissionId
-                                        INNER JOIN medicalJournal ON medicalJournal.id = admission.medicalJournal
+            $stmt = $db->conn->prepare("SELECT medicaljournal.name AS name FROM medicaljournal
+                                        INNER JOIN admission ON admission.medicalJournal = medicaljournal.id
+                                        INNER JOIN docter_has_admission ON docter_has_admission.admissionId = admission.id
+                                        INNER JOIN docter ON docter.id = docter_has_admission.docterId
                                         WHERE docter.id = ? AND medicaljournal.id = ?");
             
             $stmt->bind_param("ii", $doctorId, $patiantId);
@@ -37,13 +37,39 @@
 
             return $finish;
             $stmt->close();
-            $stmt->conn->close();
+            $db->conn->close();
             
         }
 
         /*********************************/
         /*             POST              */     
         /*********************************/
+        public function postMedicalJournal($patiant)
+        {
+            $db = new DB();
+            
+            $stmt = $db->conn->prepare("INSERT INTO medicaljournal(name, socialSecurityNumber) VALUES (?, ?)");
+
+            $name = $patiant->getName();
+            $socialSecurityNumber = $patiant->getSocialSecurityNumber();
+
+            $stmt->bind_param("si", $name, $socialSecurityNumber);
+            $stmt->execute();
+
+            $result = $stmt->affected_rows;
+
+            if($result === 1){
+                
+                return true;
+            }
+            else{
+
+                return false;
+            }
+
+            $stmt->close();
+            $db->conn->close();
+        }
 
         /*********************************/
         /*              PUT              */

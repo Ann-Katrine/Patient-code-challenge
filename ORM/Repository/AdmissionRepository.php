@@ -60,7 +60,7 @@
             }
 
             $stmt->close();
-            $stmt->conn->close();
+            $db->conn->close();
         }
 
         /*********************************/

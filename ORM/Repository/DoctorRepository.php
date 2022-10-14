@@ -6,6 +6,40 @@
         /*********************************/
         /*             GET               */     
         /*********************************/
+        public function getAllDocterTooPatiantsWithId($name)
+        {
+            $db = new DB();
+            $finish = array();
+
+            $stmt = $db->conn->prepare("SELECT docter.name AS name FROM docter
+                                        INNER JOIN docter_has_admission ON docter_has_admission.docterId = docter.id
+                                        INNER JOIN admission ON admission.id = docter_has_admission.admissionId
+                                        INNER JOIN medicaljournal ON medicaljournal.id = admission.medicalJournal
+                                        WHERE medicaljournal.name = ?");
+            $stmt->bind_param("s", $name);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if($result != false && $result->num_rows > 0){
+                
+                $patiant = array();
+                while($row = $result->fetch_object()){
+                    $patiant[] = new Docter(null, $row->name, null);
+                }
+
+                array_push($finish, true, $patiant);
+                return $finish;
+            }
+            else{
+
+                array_push($finish, false);
+                return $finish;
+            }
+
+            $stmt->close();
+            $db->conn->close();
+        }
 
         /*********************************/
         /*             POST              */     
@@ -34,7 +68,7 @@
             }
 
             $stmt->close();
-            $stmt->conn->close();
+            $db->conn->close();
         }
 
         /*********************************/
