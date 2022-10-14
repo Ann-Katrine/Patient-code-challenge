@@ -7,4 +7,5 @@ Inden jeg begyndte på at kode laver jeg altid diagrammer. De diagrammer jeg har
 Det giver mig et hurtiger overblik, og ved hvad jeg skal lave.
 
 # EndPoints
-- http://localhost/kode-challenges/API/index.php/api/docter/all-docter-too-patiant-with-name/id
+- http://localhost/kode-challenges/API/index.php/api/docter/all-docter-too-patiant-with-name/<id>
+-http://localhost/kode-challenges/API/index.php/api/medical-journal/get-patient?patientId=<id>&dockerId=<id>
