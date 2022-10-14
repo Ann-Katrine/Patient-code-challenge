@@ -6,7 +6,7 @@
         /*********************************/
         /*             GET               */     
         /*********************************/
-        public function getAllPatiantByIdAndDocter($patiantId, $doctorId)
+        public function getPatiantByIdAndDocter($patiantId, $doctorId)
         {
             $db = new DB();
             $finish = array();

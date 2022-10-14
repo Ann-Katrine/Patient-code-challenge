@@ -61,7 +61,6 @@
             
             if($this->countUri === 2){
                 // Bruger til at vise all fra docter
-                // api/admission/all-docter-too-patiant-with-name/name
             }
             else if($this->countUri > 2){
 
@@ -125,7 +124,72 @@
 
         private function medicalJournal($uri)
         {
-            # code...
+            $medialJournal = new medicalJournalRepository();
+            $vali = new Validering();
+            $finish = array();
+
+            if($this->countUri === 2){
+                // Bruger til at vise all fra docter
+            }
+            else if($this->countUri > 2){
+
+                $this->arrayVali = [];
+                array_push($this->arrayVali, $uri[2]);
+                $result = $vali->isNumeric($this->arrayVali);
+                if($result === true){
+                    // Til hvis man kun skal have en admission frem 
+                }
+                else{
+
+                    $search = explode("?", $uri[2]);
+                    if($search[0] == "get-patient"){
+                        
+                        $search = explode("&", $search[1]);
+
+                        $patientId = explode("=", $search[0]);
+                        $patientId = $patientId[1];
+                        $dockerId = explode("=", $search[1]);
+                        $dockerId = $dockerId[1];
+
+                        $this->arrayVali = [];
+                        array_push($this->arrayVali, $patientId, $dockerId);
+                        $result = $vali->isNumeric($this->arrayVali);
+                        if($result === true){
+
+                            $result = $medialJournal->getPatiantByIdAndDocter($patientId, $dockerId);
+                            if($result[0] === true){
+
+                                $antal = count($result[1]);
+                                for ($i = 0; $i < $antal; $i++) { 
+                                    
+                                    $getResult = $result[1][$i];
+                                    $finish[] = $getResult->getName();
+                                }
+
+                                http_response_code(200);
+                                echo json_encode($finish);
+                            }
+                            else{
+
+                                http_response_code(404);
+                                die("Du har ikke adgang til denne patientjournal.");
+                            }
+                        }
+                        else{
+                            http_response_code(400);
+                            die("400 - bad request method!");
+                        }
+                    }
+                    else{
+                        http_response_code(404);
+                        die("Det blev ikke fundet");
+                    }
+                }
+            }
+            else{
+                http_response_code(400);
+                die("400 - bad request method!");
+            }
         }
     }
 ?>
