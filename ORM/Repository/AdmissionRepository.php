@@ -47,7 +47,7 @@
 
             $stmt = $db->conn->prepare("INSERT INTO docter_has_admission(docterId, admissionId) VALUES (?, ?)");
 
-            $stmt->bind_result("ii", $admissionId, $docterId);
+            $stmt->bind_param("ii", $docterId, $admissionId);
             $stmt->execute();
 
             $result = $stmt->affected_rows;
@@ -70,5 +70,26 @@
         /*********************************/
         /*              DELETE           */
         /*********************************/
+        public function deleteAdmission($id)
+        {
+            $db = new DB();
+
+            $stmt = $db->conn->prepare("DELETE FROM admission WHERE admission.id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+
+            $result = $stmt->affected_rows;
+
+            if($$result === 1){
+
+                return true;
+            }
+            else{
+                return false;
+            }
+
+            $stmt->close();
+            $db->conn->close();
+        }
     }
 ?>

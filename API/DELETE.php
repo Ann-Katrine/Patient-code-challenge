@@ -47,7 +47,10 @@
 
         private function admissionRoute($uri)
         {
-            # code...
+            $admission = new admissionRepository();
+            $vali = new Validering();
+
+            array_push($this->arrayVali, $uri[2]);
         }
 
         private function docterRoute($uri)

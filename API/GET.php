@@ -28,7 +28,8 @@
                         $this->admissionRoute($uri);
                         break;
                     case 'docter':
-                        $this->docterRoute($uri);
+                        $result = $this->docterRoute($uri);
+                        return $result;
                         break;
                     case 'department':
                         $this->departmentRoute($uri);
@@ -104,6 +105,17 @@
                             die("400 - bad request method!");
                         }
                         
+                    }
+                    else if($uri[2] == "docter-in-department"){
+
+                        $this->arrayVali = [];
+                        array_push($this->arrayVali, $uri[3]);
+                        $result = $vali->isNumeric($this->arrayVali);
+                        if($result === true){
+
+                            $result = $docter->getTheDoctersDepartment($uri[3]);
+                            return $result;
+                        }
                     }
                     else{
                         http_response_code(400);

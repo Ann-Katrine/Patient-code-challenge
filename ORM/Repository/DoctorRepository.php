@@ -24,12 +24,45 @@
 
             if($result != false && $result->num_rows > 0){
                 
-                $patiant = array();
+                $docter = array();
                 while($row = $result->fetch_object()){
-                    $patiant[] = new Docter(null, $row->name, null);
+                    $docter[] = new Docter(null, $row->name, null);
                 }
 
-                array_push($finish, true, $patiant);
+                array_push($finish, true, $docter);
+                return $finish;
+            }
+            else{
+
+                array_push($finish, false);
+                return $finish;
+            }
+
+            $stmt->close();
+            $db->conn->close();
+        }
+
+        public function getTheDoctersDepartment($id)
+        {
+            $db = new DB();
+            $finish = array();
+
+            $stmt = $db->conn->prepare("SELECT department.id AS id FROM docter
+                                        INNER JOIN department ON docter.department = department.id
+                                        WHERE  docter.id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if($result != false && $result->num_rows > 0){
+
+                $docter = array();
+                while ($row = $result->fetch_object()) {
+                    $docter[] = new Docter($row->id, null, null);
+                }
+
+                array_push($finish, true, $docter);
                 return $finish;
             }
             else{
