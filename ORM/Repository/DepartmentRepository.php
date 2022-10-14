@@ -1,6 +1,6 @@
 <?php 
-    include_once("../Class/Db.php");
-    include_once("../Class/Department.php");
+    include_once("../ORM/Class/Db.php");
+    include_once("../ORM/Class/Department.php");
 
     class departmentRepository{
         /*********************************/

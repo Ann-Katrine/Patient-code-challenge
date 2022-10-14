@@ -1,6 +1,6 @@
 <?php 
-    include_once("../Class/Db.php");
-    include_once("../Class/MedicalJournal.php");
+    include_once("../ORM/Class/Db.php");
+    include_once("../ORM/Class/MedicalJournal.php");
 
     class medicalJournalRepository{
         /*********************************/

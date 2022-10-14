@@ -1,12 +1,12 @@
 <?php 
-    include_once("../Class/Db.php");
-    include_once("../Class/Docter.php");
+    include_once("../ORM/Class/Db.php");
+    include_once("../ORM/Class/Docter.php");
 
     class docterRepository{
         /*********************************/
         /*             GET               */     
         /*********************************/
-        public function getAllDocterTooPatiantsWithId($name)
+        public function getAllDocterTooPatiantsWithId($id)
         {
             $db = new DB();
             $finish = array();
@@ -15,11 +15,12 @@
                                         INNER JOIN docter_has_admission ON docter_has_admission.docterId = docter.id
                                         INNER JOIN admission ON admission.id = docter_has_admission.admissionId
                                         INNER JOIN medicaljournal ON medicaljournal.id = admission.medicalJournal
-                                        WHERE medicaljournal.name = ?");
-            $stmt->bind_param("s", $name);
+                                        WHERE medicaljournal.id = ?");
+            $stmt->bind_param("i", $id);
             $stmt->execute();
 
             $result = $stmt->get_result();
+
 
             if($result != false && $result->num_rows > 0){
                 
