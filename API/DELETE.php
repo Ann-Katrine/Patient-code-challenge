@@ -4,10 +4,10 @@
     ini_set('display_errors', 1);
 
     include_once("./validering.php");
-    include_once("./ORM/Repository/AdmissionRepository.php");
-    include_once("./ORM/Repository/DepartmentRepository.php");
-    include_once("./ORM/Repository/DoctorRepository.php");
-    include_once("./ORM/Repository/medicalJournal.php");
+    include_once("../ORM/Repository/AdmissionRepository.php");
+    include_once("../ORM/Repository/DepartmentRepository.php");
+    include_once("../ORM/Repository/DoctorRepository.php");
+    include_once("../ORM/Repository/medicalJournal.php");
 
     class DELETE{
         private $id = 0;
