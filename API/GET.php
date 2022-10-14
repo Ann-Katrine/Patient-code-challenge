@@ -4,10 +4,10 @@
     ini_set('display_errors', 1);
 
     include_once("./validering.php");
-    include_once("./ORM/Repository/AdmissionRepository.php");
-    include_once("./ORM/Repository/DepartmentRepository.php");
-    include_once("./ORM/Repository/DoctorRepository.php");
-    include_once("./ORM/Repository/medicalJournal.php");
+    include_once("../ORM/Repository/AdmissionRepository.php");
+    include_once("../ORM/Repository/DepartmentRepository.php");
+    include_once("../ORM/Repository/DoctorRepository.php");
+    include_once("../ORM/Repository/medicalJournal.php");
 
     class GET{
         private $id = 0;
@@ -17,12 +17,12 @@
 
         public function findRoute($uri, $headers)
         {
-
+            
             if(in_array("application/json", $headers)){
 
                 $this->uriArray = $uri;
                 $this->countUri = count($this->uriArray);
-
+                
                 switch ($uri[1]) {
                     case 'admission':
                         $this->admissionRoute($uri);
@@ -55,7 +55,67 @@
 
         private function docterRoute($uri)
         {
-            # code...
+            $docter = new docterRepository();
+            $vali = new Validering();
+            $finish = array();
+            
+            if($this->countUri === 2){
+                // Bruger til at vise all fra docter
+                // api/admission/all-docter-too-patiant-with-name/name
+            }
+            else if($this->countUri > 2){
+
+                $this->arrayVali = [];
+                array_push($this->arrayVali, $uri[2]);
+                $result = $vali->isNumeric($this->arrayVali);
+                if($result === true){
+                    // Til hvis man kun skal have en admission frem                     
+                }
+                else{
+                    
+                    if($uri[2] == "all-docter-too-patiant-with-name"){
+
+                        $this->arrayVali = [];
+                        array_push($this->arrayVali, $uri[3]);
+                        $result = $vali->isNumeric($this->arrayVali);
+
+                        if($result === true){
+
+                            $result = $docter->getAllDocterTooPatiantsWithId($uri[3]);
+                            if($result[0] === true){
+
+                                $antal = count($result[1]);
+                                for ($i = 0; $i < $antal; $i++) { 
+                                    
+                                    $getResult = $result[1][$i];
+                                    $finish[] = $getResult->getName();
+                                }
+
+                                http_response_code(200);
+                                echo json_encode($finish);
+                            }
+                            else{
+                                
+                                http_response_code(404);
+                                die("Der blev ikke fundet nogen dokter.");
+                            }
+                        }
+                        else{
+                            http_response_code(400);
+                            die("400 - bad request method!");
+                        }
+                        
+                    }
+                    else{
+                        http_response_code(400);
+                        die("400 - bad request method!");
+                    }
+                }
+            }
+            else{
+                http_response_code(400);
+                die("400 - bad request method!");
+            }
         }
 
         private function departmentRoute($uri)
