@@ -9,7 +9,7 @@
     include_once("../ORM/Repository/AdmissionRepository.php");
     include_once("../ORM/Repository/DepartmentRepository.php");
     include_once("../ORM/Repository/DoctorRepository.php");
-    include_once("../ORM/Repository/medicalJournal.php");
+    include_once("../ORM/Repository/medicalJournalRepository.php");
 
     class POST{
         private $arrayVali = array();

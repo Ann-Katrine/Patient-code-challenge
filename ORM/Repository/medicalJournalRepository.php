@@ -41,6 +41,40 @@
             
         }
 
+        public function getAllPatiantFromDepartmentWithId($id)
+        {
+            $db = new DB();
+            $finish = array();
+
+            $stmt = $db->conn->prepare("SELECT medicaljournal.id AS id, medicaljournal.name AS name, medicaljournal.socialSecurityNumber AS cpr FROM department
+                                        INNER JOIN admission ON admission.department = department.id
+                                        INNER JOIN medicaljournal ON medicaljournal.id = admission.medicalJournal
+                                        WHERE department.id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if($result != false && $result->num_rows > 0){
+
+                $person = array();
+                while ($row = $result->fetch_object()) {
+                    $person[] = new MedicalJournal($row->id, $row->name, $row->cpr);
+                }
+
+                array_push($finish, true, $person);
+                return $finish;
+            }
+            else{
+
+                array_push($finish, false);
+                return $finish;
+            }
+
+            $stmt->close();
+            $db->conn->close();
+        }
+
         /*********************************/
         /*             POST              */     
         /*********************************/

@@ -7,7 +7,7 @@
     include_once("../ORM/Repository/AdmissionRepository.php");
     include_once("../ORM/Repository/DepartmentRepository.php");
     include_once("../ORM/Repository/DoctorRepository.php");
-    include_once("../ORM/Repository/medicalJournal.php");
+    include_once("../ORM/Repository/medicalJournalRepository.php");
 
     class GET{
         private $id = 0;
@@ -104,7 +104,6 @@
                             http_response_code(400);
                             die("400 - bad request method!");
                         }
-                        
                     }
                     else if($uri[2] == "docter-in-department"){
 
@@ -154,7 +153,39 @@
                 else{
 
                     $search = explode("?", $uri[2]);
-                    if($search[0] == "get-patient"){
+                    if($uri[2] = "all-patiant-from-depatment"){
+
+                        $this->arrayVali = [];
+                        array_push($this->arrayVali, $uri[3]);
+                        $result = $vali->isNumeric($this->arrayVali);
+                        if($result === true){
+
+                            $id = intval($uri[3]);
+                            $result = $medialJournal->getAllPatiantFromDepartmentWithId($id);
+                            if($result[0] === true){
+
+                                $antal = count($result[1]);
+                                for ($i = 0; $i < $antal; $i++) { 
+                                    
+                                    $getResult = $result[1][$i];
+                                    $finish[] =$getResult->getMedicalJournal();
+                                }
+
+                                http_response_code(200);
+                                echo json_encode($finish);
+                            }
+                            else{
+                                
+                                http_response_code(404);
+                                die("Der blev ikke fundet nogen medicin journaler.");
+                            }
+                        }
+                        else{
+                            http_response_code(400);
+                            die("400 - bad request method!");
+                        }
+                    }
+                    else if($search[0] == "get-patient"){
                         
                         $search = explode("&", $search[1]);
 
