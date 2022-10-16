@@ -36,12 +36,12 @@
             <p class="patanitInnerBoksText">CPR-nr</p>
           </div>
         </div>
-        <div class="pataintBoks">
+        <div class="pataintBoks" v-for="allPatiant in patiant" :key="allPatiant.id">
           <div class="pataintInnerBoks">
-            <p class="patanitInnerBoksText">anne-katrine</p>
+            <p class="patanitInnerBoksText"> {{ allPatiant.name }} </p>
           </div>
           <div class="pataintInnerBoks">
-            <p class="patanitInnerBoksText">1234567890</p>
+            <p class="patanitInnerBoksText"> {{ allPatiant.socialSecurityNumber }} </p>
           </div>
         </div>
       </div>
@@ -49,11 +49,8 @@
       <div class="selectOuterBoks">
         <div>
           <h3 class="selectOverskrift">Vælg Læge</h3>
-          <select>
-            <option>læge 1</option>
-            <option>læge 2</option>
-            <option>læge 3</option>
-            <option>læge 4</option>
+          <select v-for="allDocter in docter" :key="allDocter.id">
+            <option :value="allDocter.id"> {{ allDocter.name }} </option>
           </select>
         </div>
         <div>
@@ -65,18 +62,53 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: "assign-docter-to-patiant",
   data(){
     return{
-
+      patiant: [],
+      docter: [],
+      api: "http://localhost/kode-challenges/API/index.php/api/",
+      department: 1,
     }
   },
   created(){
-
+    this.getAllPatiant();
+    this.getAllDocters();
   },
   methods:{
-
+    getAllPatiant(){
+      axios
+        .get(this.api + 'medical-journal/all-patiant-from-depatment/' + this.department, {
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(Response => {
+          this.patiant = Response.data
+          console.log(this.patiant);
+        })
+        .catch(err => {
+          console.log(err.toString());
+        })
+    },
+    getAllDocters(){
+      axios
+        .get(this.api + "docter/all-docter-from-department-with-id/" + this.department, {
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(Response => {
+          this.docter = Response.data
+          console.log(this.docter);
+        })
+        .catch(err => {
+          console.log(err.toString());
+        })
+    }
   }
 }
 </script>
