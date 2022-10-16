@@ -105,6 +105,39 @@
                             die("400 - bad request method!");
                         }
                     }
+                    else if($uri[2] == "all-docter-from-department-with-id"){
+
+                        $this->arrayVali = [];
+                        array_push($this->arrayVali, $uri[3]);
+                        $result = $vali->isNumeric($this->arrayVali);
+                        if($result === true){
+
+                            $id = intval($uri[3]);
+                            $result = $docter->getAllDocterFromdepartmentWithId($id);
+                            if($result[0] === true){
+                                
+                                $antal = count($result[1]);
+                                for ($i = 0; $i < $antal; $i++) { 
+                                    
+                                    $getResult = $result[1][$i];
+                                    $finish[] = $getResult->getDocter();
+                                }
+
+                                http_response_code(200);
+                                echo json_encode($finish);
+                            }
+                            else{
+                                
+                                http_response_code(404);
+                                die("Der blev ikke fundet nogen dokter.");
+                            }
+                        } 
+                        else{
+                            
+                            http_response_code(400);
+                            die("400 - bad request method!");
+                        }
+                    }
                     else if($uri[2] == "docter-in-department"){
 
                         $this->arrayVali = [];

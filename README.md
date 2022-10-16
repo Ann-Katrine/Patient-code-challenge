@@ -17,6 +17,7 @@ GET
 - http://localhost/kode-challenges/API/index.php/api/docter/all-docter-too-patiant-with-name/<id>
 - http://localhost/kode-challenges/API/index.php/api/medical-journal/get-patient?patientId=<id>&dockerId=<id>
 - http://localhost/kode-challenges/API/index.php/api/medical-journal/all-patiant-from-depatment/<id>
+- http://localhost/kode-challenges/API/index.php/api/docter/all-docter-from-department-with-id/<id>
 
 POST
 - http://localhost/kode-challenges/API/index.php/api/admission

@@ -75,6 +75,39 @@
             $db->conn->close();
         }
 
+        public function getAllDocterFromdepartmentWithId($id)
+        {
+            $db = new DB();
+            $finish = array();
+
+            $stmt = $db->conn->prepare("SELECT docter.id AS id, docter.name FROM department
+                                        LEFT JOIN docter ON docter.id = department.id
+                                        WHERE department.id = ?");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+
+            $result = $stmt->get_result();
+
+            if($result != false && $result->num_rows > 0){
+
+                $docter = array();
+                while ($row = $result->fetch_object()) {
+                    $docter[] = new Docter($row->id, $row->name, null);
+                }
+
+                array_push($finish, true, $docter);
+                return $finish;
+            }
+            else{
+
+                array_push($finish, false);
+                return $finish;
+            }
+
+            $stmt->close();
+            $db->conn->close();
+        }
+
         /*********************************/
         /*             POST              */     
         /*********************************/
