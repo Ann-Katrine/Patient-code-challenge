@@ -1,3 +1,5 @@
+Jeg opgave jeg fik i samhæng med en samtale
+
 # Patient-code-challenge
 
 Jeg har valgt at gå med PHP og MySQL til min backend, på grund jeg har mest erfæring i dem når jeg skal lave backend og api'er
